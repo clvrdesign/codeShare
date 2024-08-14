@@ -8,8 +8,12 @@ const Navbar = () => {
                 <img className="h-full cursor-pointer" src={assets.logo} alt="" />
             </div>
             <ul className="flex items-center gap-4 text-xl font-bold">
-                <li className="cursor-pointer">Posts</li>
-                <li className="cursor-pointer">Create</li>
+                <li className="cursor-pointer">
+                    Posts
+                </li>
+                <li className="cursor-pointer flex items-center">
+                    Create
+                </li>
             </ul>
         </div>
     </nav>
