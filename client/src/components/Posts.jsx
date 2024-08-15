@@ -9,7 +9,7 @@ const Posts = ({onPostClick}) => {
     const [error, setError] = useState(null); // Error state
 
     useEffect(() => {
-        axios.get('http://localhost:4000/post/')
+        axios.get('http://localhost:4000/posts/')
           .then((response) => {
             setPosts(response.data);
             setLoading(false);

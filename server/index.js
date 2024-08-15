@@ -9,8 +9,8 @@ const categoryRoute = require("./routes/category");
 // Middleware
 app.use(cors())
 
-app.use("/post", postRoute);
-app.use("/category", categoryRoute);
+app.use("/posts", postRoute);
+app.use("/categories", categoryRoute);
 
 mongoose
   .connect(process.env.MONGO_URI)

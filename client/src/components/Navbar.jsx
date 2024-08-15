@@ -10,11 +10,14 @@ const Navbar = ({addPost}) => {
                 <img className="h-full cursor-pointer md:block hidden" src={assets.logo} alt="" />
                 <img className="h-full cursor-pointer md:hidden block" src={assets.logo_small} alt="" />
             </Link>
-            <ul className="flex items-center text-gray-900 gap-4 text-xl font-bold">
-                <li className="cursor-pointer">
-                    Posts
-                </li>
-                <li onClick={addPost} className="cursor-pointer flex items-center">
+            <ul className="flex items-center justify-between text-gray-900 lg:gap-10 gap-4 text-lg font-medium">
+                <Link to='/' className="w-fit cursor-pointer text-gray-500">
+                    Home
+                </Link>
+                <Link to='/trends' className="w-fit cursor-pointer">
+                    Trends
+                </Link>
+                <li onClick={addPost} className="w-fit cursor-pointer flex items-center">
                     Create
                 </li>
             </ul>

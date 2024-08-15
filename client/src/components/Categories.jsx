@@ -8,7 +8,7 @@ const Categories = () => {
     const [error, setError] = useState(null); // Error state
 
     useEffect(() => {
-        axios.get('http://localhost:4000/category')
+        axios.get('http://localhost:4000/categories')
           .then((response) => {
             setCategories(response.data);
             setLoading(false);
