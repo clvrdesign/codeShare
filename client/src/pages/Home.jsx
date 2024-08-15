@@ -1,7 +1,9 @@
 import { useState } from "react";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
+import Footer from "../components/Footer";
 import Posts from "../components/Posts";
+import CreatePost from "../components/CreatePost"
 import Categories from "../components/Categories";
 import Modal from "../components/Modal";
 
@@ -19,38 +21,32 @@ const Home = () => {
   };
 
   return (
-    <>
+    <div className="bg-gray-950">
       {modalOpen && selectedPost && (
         <Modal>
-          <div>
-            <h2 className='text-xl font-semibold'>{selectedPost.title}</h2>
-            <div className="relative w-full h-[250px] my-4 overflow-hidden rounded-2xl">
-              <img className='w-full h-full object-cover' src={selectedPost.thumbnail} alt={selectedPost.title.slice(0, 10)} />
-            </div>
-            <p>{selectedPost.content}</p>
-            <p className='text-gray-500'>{new Date(selectedPost.date).toDateString()}</p>
-          </div>
+          <CreatePost/>
         </Modal>
       )}
-      <Navbar />
+      <Navbar addPost={toggleModal} />
       <Header
         title="Your Hub for the Latest in Development News and Features"
         description="Stay up-to-date with the latest developments in the world of technology and software development."
       />
       <div className="w-full py-10">
         <div className="max-w-[1200px] m-auto px-3">
-          <h1 className="lg:text-3xl text-2xl font-bold text-center m-10">
+          <h1 className="lg:text-3xl text-2xl font-bold text-center text-gray-300 m-10">
             Latest posts
           </h1>
           <Posts onPostClick={handlePostClick} />
         </div>
       </div>
-      <div className="w-full bg-slate-100 py-10">
-        <div className="max-w-[1200px] m-auto px-3">
+      <div className="w-full pt-10 pb-20">
+        <div className="max-w-[1200px] m-auto flex flex-wrap px-3">
           <Categories />
         </div>
       </div>
-    </>
+      <Footer/>
+    </div>
   );
 };
 

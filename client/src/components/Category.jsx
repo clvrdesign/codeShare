@@ -3,8 +3,8 @@ import { Link } from 'react-router-dom';
 
 const Category = ({name}) => {
   return (
-    <div className='border'>
-        <Link to='/category'>{name}</Link>
+    <div className='bg-gray-900 py-2 px-4 rounded-full'>
+        <Link to='/category' className='text-gray-400'>{name}</Link>
     </div>
   )
 }
