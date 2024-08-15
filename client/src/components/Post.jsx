@@ -35,7 +35,7 @@ const Post = ({ title, thumbnail, content, category, date, onClick }) => {
         </small>
         <img className='w-full h-full object-cover' src={thumbnail} alt={title.slice(0, 10)} />
       </div>
-      <small className='block mb-2 text-[#f8f296]'>{category}</small>
+      <small className='block mb-2 text-[#f8f296]'>#{category}</small>
       <p className='text-gray-400'>{content.slice(0, 120)}...</p>
     </div>
   )

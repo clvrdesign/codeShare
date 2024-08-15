@@ -13,19 +13,26 @@ const CreatePage = () => {
       .then((response) => {
         setCategories(response.data);
         setLoading(false);
+        if (loading) {
+          return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
+            Loading categories ...
+          </div>;
+        }
+      
       })
       .catch((error) => {
         setError(error);
         setLoading(false);
+        if (loading) {
+          return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
+            Loading categories ...
+          </div>;
+        }
+      
       });
-  }, [])
+  }, [loading, error])
 
-  if (loading) {
-    return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
-      Loading categories ...
-    </div>;
-  }
-
+  
   if (error) {
     return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
       {error.message}
