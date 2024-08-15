@@ -20,13 +20,13 @@ const Categories = () => {
       }, []);
 
     if (loading) {
-        return <div className='flex items-center justify-center text-center text-[15px] bg-sky-100 p-4 border border-sky-400'>
-            Loading...
+        return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
+            Loading categories...
         </div>;
     }
 
     if (error) {
-        return <div className='flex items-center justify-center text-center text-[15px] bg-red-100 p-4 border border-red-400'>
+        return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
             {error.message}
         </div>;
     }

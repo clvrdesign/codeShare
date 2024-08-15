@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react"
+import { Link } from "react-router-dom"
 
 const Footer = () => {
     const [year, setYear] = useState(new Date().getFullYear());
@@ -8,8 +9,10 @@ const Footer = () => {
     }, [year])
 
     return (
-        <div className="max-w-[1200px] m-auto flex items-center justify-center text-gray-600 text-center border-t border-gray-900 py-5">
-            &copy; {year} codeShare | Alright reserved
+        <div className="bg-gray-950">
+        <p className="max-w-[1200px] m-auto flex items-center justify-center text-sm text-gray-600 gap-2 text-center border-t border-gray-900 py-5">
+            &copy; {year} codeShare | Levi,s Code Craft by<Link className="hover:text-[#f8f296] text-gray-500 ease-out duration-150" to='https://www.klevadev.com'>Clever Designer</Link>
+        </p>
         </div>
     )
 }
