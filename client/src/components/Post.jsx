@@ -30,7 +30,9 @@ const Post = ({ title, thumbnail, content, date, onClick }) => {
     <div onClick={onClick} className='shadow-lg p-4 overflow-hidden rounded-2xl cursor-pointer'>
       <h2 className='text-xl font-semibold'>{title}</h2>
       <div className="relative w-full h-[250px] my-4 overflow-hidden rounded-2xl">
-        <small className='absolute top-2 left-2 text-white bg-black bg-opacity-25 py-2 p-4 rounded-xl'>{timeAgo(date)}</small>
+        <small className='absolute top-2 left-2 text-white bg-black bg-opacity-25 py-2 p-4 rounded-xl'>
+          {timeAgo(date)}
+        </small>
         <img className='w-full h-full object-cover' src={thumbnail} alt={title.slice(0, 10)} />
       </div>
       <p>{content.slice(0, 120)}...</p>
