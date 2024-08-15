@@ -1,17 +1,16 @@
 import { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
 import axios from 'axios'
-import Post from './Post';
+import Category from './Category';
 
-const Posts = ({onPostClick}) => {
-    const [posts, setPosts] = useState([]);
+const Categories = () => {
+    const [categories, setCategories] = useState([]);
     const [loading, setLoading] = useState(true); // Loading state
     const [error, setError] = useState(null); // Error state
 
     useEffect(() => {
-        axios.get('http://localhost:4000/post/')
+        axios.get('http://localhost:4000/category')
           .then((response) => {
-            setPosts(response.data);
+            setCategories(response.data);
             setLoading(false);
           })
           .catch((error) => {
@@ -34,24 +33,11 @@ const Posts = ({onPostClick}) => {
 
     return (
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-            {posts.map((data) => (
-                <Post
-                key={data.id}
-                title={data.title}
-                thumbnail={data.imageUrl}
-                content={data.content}
-                date={data.dateCreated}
-                onClick={() => onPostClick(data)}
-                />
+            {categories.map((data) => (
+                <Category key={data.id} name={data.name} />
             ))}
         </div>
     );
-}
+};
 
-// Define prop types for the Post component
-Posts.propTypes = {
-    onPostClick: PropTypes.func
-  }
-  
-
-export default Posts;
+export default Categories;

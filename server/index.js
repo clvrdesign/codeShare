@@ -1,9 +1,13 @@
 require("dotenv").config();
 const mongoose = require("mongoose");
 const express = require("express");
+const cors = require('cors')
 const app = express();
 const postRoute = require("./routes/post");
 const categoryRoute = require("./routes/category");
+
+// Middleware
+app.use(cors())
 
 app.use("/post", postRoute);
 app.use("/category", categoryRoute);

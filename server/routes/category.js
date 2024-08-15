@@ -36,7 +36,7 @@ route.get('/:id', async (req, res) => {
 route.post("/", async (req, res) => {
     // You could alternatively use the data from the request body (req.body) for a more dynamic category creation.
     const category = {
-      name: req.body.title
+      name: req.body.name
     };
   
     const newCategory = new category(category);

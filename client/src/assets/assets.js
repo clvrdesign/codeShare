@@ -1,2 +1,4 @@
 import logo from './images/Logo__codeShare.svg'
-export const assets = { logo }
+import logo_small from './images/favicon.svg'
+
+export const assets = { logo, logo_small }
