@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 import Categories from "../components/Categories";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
@@ -6,8 +7,28 @@ import Footer from "../components/Footer";
 import Posts from "../components/Posts";
 
 const AllPosts = () => {
+    const [postsData, setPostsData] = useState([]);
     const [selectedPost, setSelectedPost] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
+
+    useEffect(() => {
+        const fetchPosts = () => {
+            axios
+                .get("http://localhost:4000/posts/")
+                .then((response) => {
+                    setPostsData(response.data);
+                    setLoading(false);
+                })
+                .catch((error) => {
+                    setError(error.message);
+                    setLoading(false);
+                });
+        };
+
+        fetchPosts();
+    }, []);
 
     const handlePostClick = (data) => {
         setSelectedPost(data);
@@ -17,17 +38,10 @@ const AllPosts = () => {
         setSearchQuery(e.target.value);
     };
 
-    // Assuming you have an array of posts data
-    const postsData = [
-        // Example data
-        { id: 1, title: "Post 1", content: "Content of Post 1" },
-        { id: 2, title: "Post 2", content: "Content of Post 2" },
-        // Add more posts here...
-    ];
-
     // Filter posts based on search query
-    const filteredPosts = postsData.filter(post =>
-        post.title.toLowerCase().includes(searchQuery.toLowerCase())
+    const filteredPosts = postsData.filter(
+        (post) =>
+            post.category.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -45,7 +59,7 @@ const AllPosts = () => {
                     />
                     <i className="fi fi-rr-search absolute top-[18px] left-5 text-gray-500"></i>
                 </form>
-                <p className='max-w-[650px] text-center lg:text-lg text-[15px] text-gray-900'>
+                <p className="max-w-[650px] text-center lg:text-lg text-[15px] text-gray-900">
                     Stay up-to-date with the latest developments in the world of technology and software development.
                 </p>
             </Header>
@@ -57,15 +71,25 @@ const AllPosts = () => {
 
             <div className="w-full py-10">
                 <div className="max-w-[1200px] m-auto flex flex-col items-center px-3">
-                    <Posts onPostClick={handlePostClick} posts={filteredPosts} />
+                    {loading ? (
+                        <p className="text-white">Loading...</p>
+                    ) : error ? (
+                        <p className="text-red-500">Error: {error}</p>
+                    ) : (
+                        <Posts onPostClick={handlePostClick} posts={filteredPosts} />
+                    )}
                 </div>
             </div>
 
             {selectedPost && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+                <div className="fixed max-h-screen inset-0 bg-black bg-opacity-50 flex justify-center items-center overflow-auto z-50">
                     <div className="lg:w-1/3 md:w-1/2 w-full bg-white p-6 rounded-3xl shadow-lg m-4">
                         <h2 className="text-2xl mb-4">{selectedPost.title}</h2>
-                        <img className="w-full h-[215px] object-cover rounded-2xl" src={selectedPost.imageUrl} alt="" />
+                        <img
+                            className="w-full h-[215px] object-cover rounded-2xl"
+                            src={selectedPost.imageUrl}
+                            alt=""
+                        />
                         <p className="my-4 text-justify">{selectedPost.content}</p>
 
                         <button
@@ -81,6 +105,6 @@ const AllPosts = () => {
             <Footer />
         </div>
     );
-}
+};
 
 export default AllPosts;
