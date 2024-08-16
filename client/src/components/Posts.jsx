@@ -13,12 +13,18 @@ const Posts = ({onPostClick}) => {
           .then((response) => {
             setPosts(response.data);
             setLoading(false);
+            
+          })
+          .then(()=>{
+            if (posts.length < 0){
+                setError('No posts found');
+            }
           })
           .catch((error) => {
             setError(error);
             setLoading(false);
           });
-      }, []);
+      }, [posts.length]);
 
     if (loading) {
         return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
@@ -36,7 +42,7 @@ const Posts = ({onPostClick}) => {
         <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
             {posts.map((data) => (
                 <Post
-                key={data.id}
+                key={data._id}
                 title={data.title}
                 thumbnail={data.imageUrl}
                 content={data.content}
