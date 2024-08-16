@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -9,20 +10,20 @@ import Modal from "../components/Modal";
 
 const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
-  const [selectedPost, setSelectedPost] = useState(null);
+  const navigate = useNavigate();
 
   const toggleModal = () => {
     setModalOpen(!modalOpen);
   };
 
-  const handlePostClick = (data) => {
-    setSelectedPost(data);
-    toggleModal();
+  const handlePostClick = (post) => {
+    navigate(`/post/${post._id}`); // Navigate to SinglePost with post ID
   };
+
 
   return (
     <div className="bg-gray-950">
-      {modalOpen && selectedPost && (
+      {modalOpen &&(
         <Modal>
           <CreatePost />
         </Modal>
@@ -42,7 +43,7 @@ const Home = () => {
           <h1 className="lg:text-3xl text-2xl font-bold text-center text-gray-300 m-10">
             Latest posts
           </h1>
-          <Posts onPostClick={handlePostClick} />
+          <Posts onPostClick={handlePostClick}/>
           <Link to='/trends' className="flex justify-center items-center text-center h-10 w-fit px-10 bg-[#f8f296] text-gray-800 my-10 rounded-full">
             View all posts
           </Link>

@@ -14,8 +14,11 @@ const Navbar = () => {
                 <Link to='/' className="w-fit cursor-pointer text-gray-500">
                     Home
                 </Link>
-                <Link to='/trends' className="w-fit cursor-pointer">
-                    Trends
+                <Link to='/posts' className="w-fit cursor-pointer">
+                    Posts
+                </Link>
+                <Link to='/category' className="w-fit cursor-pointer">
+                    Categories
                 </Link>
                 <Link to='/create' className="w-fit cursor-pointer flex items-center">
                     Create

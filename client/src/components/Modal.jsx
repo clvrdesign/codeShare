@@ -34,7 +34,7 @@ const Modal = ({ children }) => {
                     aria-modal="true"
                     role="dialog"
                 >
-                    <div className="max-w-[810px] m-auto bg-gray-950 rounded-2xl">
+                    <div className="max-w-[810px] mx-auto my-4 bg-gray-950 rounded-2xl">
                         <div className="p-4 relative text-gray-100">
                             {children}
                             <button

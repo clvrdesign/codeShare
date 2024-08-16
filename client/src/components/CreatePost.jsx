@@ -15,11 +15,12 @@ const CreatePage = () => {
   });
   const [submitError, setSubmitError] = useState(null); // Error state for form submission
   const [isSubmitting, setIsSubmitting] = useState(false); // Submitting state
+  const [validationErrors, setValidationErrors] = useState({}); // Validation errors
 
   useEffect(() => {
     axios.get('http://localhost:4000/categories/')
       .then((response) => {
-        setCategories(response.data);
+        setCategories(Array.isArray(response.data) ? response.data : []);
         setLoading(false);
       })
       .catch((error) => {
@@ -36,8 +37,38 @@ const CreatePage = () => {
     }));
   };
 
+  const validateForm = () => {
+    const errors = {};
+
+    if (!formData.title.trim()) {
+      errors.title = "Title is required.";
+    }
+
+    if (!formData.imageUrl.trim()) {
+      errors.imageUrl = "Image URL is required.";
+    } else if (!/^https?:\/\/.+\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(formData.imageUrl)) {
+      errors.imageUrl = "Image URL must be a valid image URL (jpg, jpeg, png, gif, bmp).";
+    }
+
+    if (!formData.category) {
+      errors.category = "Category is required.";
+    }
+
+    if (!formData.content.trim()) {
+      errors.content = "Content is required.";
+    }
+
+    setValidationErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return; // If validation fails, do not proceed with the submission.
+    }
+
     setIsSubmitting(true);
     setSubmitError(null);
 
@@ -50,6 +81,7 @@ const CreatePage = () => {
           category: "",
           content: "",
         });
+        setValidationErrors({});
       })
       .catch((error) => {
         setSubmitError(error.message);
@@ -94,6 +126,10 @@ const CreatePage = () => {
               value={formData.title || ""}
               onChange={handleChange}
             />
+            {validationErrors.title && (
+              <div className="text-red-500 text-sm">{validationErrors.title}</div>
+            )}
+            
             <input 
               className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900" 
               placeholder="Image url" 
@@ -102,6 +138,10 @@ const CreatePage = () => {
               value={formData.imageUrl || ""}
               onChange={handleChange}
             />
+            {validationErrors.imageUrl && (
+              <div className="text-red-500 text-sm">{validationErrors.imageUrl}</div>
+            )}
+            
             <select 
               className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900" 
               name="category" 
@@ -109,10 +149,14 @@ const CreatePage = () => {
               onChange={handleChange}
             >
               <option value="" disabled>Select category</option>
-              {categories.map(category => (
+              {Array.isArray(categories) && categories.map(category => (
                 <option key={category.id} value={category.id}>{category.name}</option>
               ))}
             </select>
+            {validationErrors.category && (
+              <div className="text-red-500 text-sm">{validationErrors.category}</div>
+            )}
+            
             <textarea
               name="content"
               value={formData.content || ""}
@@ -120,6 +164,10 @@ const CreatePage = () => {
               placeholder="Content"
               className="w-full min-h-[150px] p-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
             ></textarea>
+            {validationErrors.content && (
+              <div className="text-red-500 text-sm">{validationErrors.content}</div>
+            )}
+            
             {submitError && (
               <div className='text-red-500'>{submitError}</div>
             )}

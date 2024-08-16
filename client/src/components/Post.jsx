@@ -28,7 +28,7 @@ const Post = ({ title, thumbnail, content, category, date, onClick }) => {
 
   return (
     <div onClick={onClick} className='bg-gray-900 shadow-lg p-4 overflow-hidden rounded-2xl cursor-pointer'>
-      <h2 className='text-xl font-semibold text-gray-300'>{title}</h2>
+      <h2 className='text-xl font-semibold text-gray-300'>{title.slice(0,50)}...</h2>
       <div className="relative w-full h-[250px] my-4 overflow-hidden rounded-2xl">
         <small className='absolute top-2 left-2 text-white bg-black bg-opacity-25 py-2 p-4 rounded-xl'>
           {timeAgo(date)}
@@ -36,7 +36,7 @@ const Post = ({ title, thumbnail, content, category, date, onClick }) => {
         <img className='w-full h-full object-cover' src={thumbnail} alt={title.slice(0, 10)} />
       </div>
       <small className='block mb-2 text-[#f8f296]'>#{category}</small>
-      <p className='text-gray-400'>{content.slice(0, 120)}...</p>
+      <p className='text-gray-400'>{content.slice(0, 120)}... <b>(read more)</b></p>
     </div>
   )
 }

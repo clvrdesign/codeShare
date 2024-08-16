@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
 import axios from "axios";
 import Categories from "../components/Categories";
 import Navbar from "../components/Navbar";
@@ -14,6 +15,8 @@ const AllPosts = () => {
     const [searchQuery, setSearchQuery] = useState("");
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+
+    const navigate = useNavigate(); // Initialize useNavigate for navigation
 
     useEffect(() => {
         const fetchPosts = async () => {
@@ -32,18 +35,16 @@ const AllPosts = () => {
 
     const deletePost = async () => {
         try {
-            await axios.delete(`http://localhost:4000/posts/${selectedPost.id}`)
-            setPostsData(postsData.filter(post => post.id !== selectedPost.id))
-        }
-
-        catch (error) {
+            await axios.delete(`http://localhost:4000/posts/${selectedPost._id}`);
+            setPostsData(postsData.filter(post => post._id !== selectedPost._id));
+            handleCloseModal();
+        } catch (error) {
             setError(error.message);
         }
-    } 
+    };
 
-    const handlePostClick = (data) => {
-        setSelectedPost(data);
-        setModalOpen(true);
+    const handlePostClick = (post) => {
+        navigate(`/post/${post._id}`); // Navigate to SinglePost with post ID
     };
 
     const handleCloseModal = () => {
@@ -55,7 +56,6 @@ const AllPosts = () => {
         setSearchQuery(e.target.value);
     };
 
-    // Filter posts based on search query
     const filteredPosts = postsData.filter(
         (post) =>
             post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -65,7 +65,9 @@ const AllPosts = () => {
 
     return (
         <div className="bg-gray-950">
+            
             <Navbar />
+
             <Header>
                 <form action="" className="relative lg:w-[550px] w-[310px] mb-7">
                     <input
@@ -82,6 +84,7 @@ const AllPosts = () => {
                     Stay up-to-date with the latest developments in the world of technology and software development.
                 </p>
             </Header>
+
             <div className="w-full pt-10">
                 <div className="max-w-[1200px] m-auto flex flex-wrap px-3">
                     <Categories />

@@ -6,6 +6,10 @@ const Post = require('../models/post')
 route.get('/', async (req, res) => {
     try {
         const posts = await Post.find(); // Fetch all posts from the database
+        if (posts.length==0){
+            return res.status(404).json({message: "no post found"})
+            
+        }
         res.status(200).json(posts); // Return the posts with a 200 status code
     } catch (error) {
         console.error('Error fetching posts:', error); // Log the error for debugging

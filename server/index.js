@@ -8,10 +8,13 @@ const categoryRoute = require("./routes/category");
 
 // Middleware
 app.use(cors())
+app.use(express.json());
 
+// routes
 app.use("/posts", postRoute);
 app.use("/categories", categoryRoute);
 
+// database connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(console.log("Connected to the database"))
