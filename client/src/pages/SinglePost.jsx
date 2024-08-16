@@ -3,12 +3,15 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Categories from "../components/Categories";
+import CreatePost from "../components/CreatePost"
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import Modal from "../components/Modal";
 
 const SinglePost = () => {
     const { id } = useParams(); // Get the post ID from the URL
     const [post, setPost] = useState(null);
+    const [isOpenModal, setIsOpenModal] = useState(false);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
@@ -41,6 +44,7 @@ const SinglePost = () => {
     const editPost = () => {
         // Handle post editing (e.g., navigate to an edit page)
         navigate(`/post/${post._id}`);
+        setIsOpenModal(true)
     };
 
     if (loading) return <p className="text-white">Loading...</p>;
@@ -88,6 +92,12 @@ const SinglePost = () => {
                         </div>
                     </div>
 
+                    {
+                        isOpenModal &&
+                        <Modal>
+                            <CreatePost/>
+                        </Modal>
+                    }
 
                 </>
             )}

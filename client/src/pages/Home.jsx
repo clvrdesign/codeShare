@@ -28,7 +28,7 @@ const Home = () => {
           <CreatePost />
         </Modal>
       )}
-      <Navbar addPost={toggleModal} />
+      <Navbar createPost={toggleModal} />
       <Header>
         <h1 className='max-w-[750px] mb-4 text-center lg:text-4xl text-xl text-gray-900 font-semibold'>
           Your Hub for the Latest in Development News and Features

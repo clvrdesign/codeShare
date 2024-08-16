@@ -1,8 +1,8 @@
 import { assets } from "../assets/assets"
 import { Link } from "react-router-dom"
+import PropTypes from 'prop-types';
 
-
-const Navbar = () => {
+const Navbar = (createPost) => {
   return (
     <nav className="sticky top-0 left-0 py-5 px-3 shadow-sm bg-[#f8f296] lg:border-none border-b border-[#ece890] z-40">
         <div className="max-w-[1200px] m-auto flex justify-between items-center">
@@ -20,14 +20,18 @@ const Navbar = () => {
                 <Link to='/category' className="w-fit cursor-pointer">
                     Categories
                 </Link>
-                <Link to='/create' className="w-fit cursor-pointer flex items-center">
+                <li onClick={createPost} className="w-fit cursor-pointer flex items-center">
                     Create
-                </Link>
+                </li>
             </ul>
         </div>
     </nav>
   )
 }
+
+Navbar.propTypes = {
+    createPost: PropTypes.func, // Optional onClose prop
+};
 
 
 export default Navbar

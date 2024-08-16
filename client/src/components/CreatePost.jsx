@@ -1,7 +1,5 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
-import Navbar from "./Navbar";
-import Footer from "./Footer";
 
 const CreatePage = () => {
   const [categories, setCategories] = useState([]);
@@ -109,8 +107,8 @@ const CreatePage = () => {
 
   return (
     <>
-      <Navbar />
-      <div className="w-full min-h-screen flex justify-center items-center bg-gray-950 overflow-hidden">
+
+
         <div className="w-1/4">
           <h1 className="text-3xl text-center text-gray-300 font-bold mt-10">Add post</h1>
           <form 
@@ -180,8 +178,8 @@ const CreatePage = () => {
             </button>
           </form>
         </div>
-      </div>
-      <Footer />
+
+
     </>
   );
 }
