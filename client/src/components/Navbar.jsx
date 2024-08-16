@@ -2,7 +2,7 @@ import { assets } from "../assets/assets"
 import { Link } from "react-router-dom"
 import PropTypes from 'prop-types';
 
-const Navbar = (createPost) => {
+const Navbar = ({createPost}) => {
   return (
     <nav className="sticky top-0 left-0 py-5 px-3 shadow-sm bg-[#f8f296] lg:border-none border-b border-[#ece890] z-40">
         <div className="max-w-[1200px] m-auto flex justify-between items-center">

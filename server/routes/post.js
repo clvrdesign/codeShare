@@ -80,7 +80,7 @@ route.patch('/:id', async (req, res) => {
         // Send the updated post as a response
         res.status(200).json(updatedPost);
     } catch (error) {
-        console.error('Error updating post:', error);
+        console.error('Error updating post:', error); c
         res.status(500).send('Error updating post');
     }
 });

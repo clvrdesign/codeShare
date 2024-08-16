@@ -24,6 +24,7 @@ const SinglePost = () => {
                 setPost(response.data);
             } catch (error) {
                 setError(error.message);
+                navigate('/*')
             } finally {
                 setLoading(false);
             }
@@ -34,8 +35,12 @@ const SinglePost = () => {
 
     const deletePost = async () => {
         try {
-            await axios.delete(`http://localhost:4000/posts/${id}`);
+            const res = await axios.delete(`http://localhost:4000/posts/${id}`);
             // Redirect or update UI after deletion
+            if(res){
+                navigate('/posts')
+            }
+            
         } catch (error) {
             setError(error.message);
         }
@@ -59,7 +64,7 @@ const SinglePost = () => {
                         <img
                             className="w-full h-full object-cover"
                             src={post.imageUrl}
-                            alt={post.title}
+                            alt={post.title.slice(0,10)}
                         />
                     </div>
 
