@@ -30,6 +30,17 @@ const AllPosts = () => {
         fetchPosts();
     }, []);
 
+    const deletePost = async () => {
+        try {
+            await axios.delete(`http://localhost:4000/posts/${selectedPost.id}`)
+            setPostsData(postsData.filter(post => post.id !== selectedPost.id))
+        }
+
+        catch (error) {
+            setError(error.message);
+        }
+    } 
+
     const handlePostClick = (data) => {
         setSelectedPost(data);
         setModalOpen(true);
@@ -106,7 +117,7 @@ const AllPosts = () => {
                     <p className="my-4 text-justify">{selectedPost.content}</p>
                     <div className="flex gap-3">
                         <button
-                            onClick={handleCloseModal}
+                            onClick={deletePost}
                             className="bg-red-300 flex gap-2 items-center text-gray-900 px-4 py-2 mb-5 rounded-lg"
                         >
                             <i className="fi fi-rr-trash translate-y-0.5"></i> Delete

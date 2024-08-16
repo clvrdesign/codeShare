@@ -36,10 +36,10 @@ route.get('/:id', async (req, res) => {
 route.post("/", async (req, res) => {
     // You could alternatively use the data from the request body (req.body) for a more dynamic post creation.
     const post = {
-        title: "My Post",
-        content: "This is my post content",
-        category: "Java",
-        imageUrl: "https://incubator.ucf.edu/wp-content/uploads/2023/07/artificial-intelligence-new-technology-science-futuristic-abstract-human-brain-ai-technology-cpu-central-processor-unit-chipset-big-data-machine-learning-cyber-mind-domination-generative-ai-scaled-1-1500x1000.jpg"
+        title: req.body.title,
+        content: req.body.content,
+        category: req.body.category,
+        imageUrl: req.body.imageUrl
     }
     const newPost = new Post(post);
   
