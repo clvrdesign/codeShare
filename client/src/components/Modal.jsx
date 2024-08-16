@@ -8,6 +8,7 @@ const Modal = ({ children }) => {
     useEffect(() => {
         const handleKeyDown = (e) => {
             if (e.key === 'Escape') {
+                console.log("Escape pressed, closing modal");
                 setIsOpen(false);
             }
         };
@@ -19,6 +20,12 @@ const Modal = ({ children }) => {
         };
     }, []);
 
+    const handleCloseClick = (e) => {
+        e.stopPropagation(); // Stop event propagation
+        console.log("Close button clicked");
+        setIsOpen(false);
+    };
+
     return (
         <>
             {isOpen && (
@@ -27,15 +34,15 @@ const Modal = ({ children }) => {
                     aria-modal="true"
                     role="dialog"
                 >
-                    <div className="max-w-[1200px] m-auto bg-white overflow-hidden rounded-2xl">
-                        <div className="min-w-[926px] p-4 relative">
+                    <div className="max-w-[810px] m-auto bg-gray-950 rounded-2xl">
+                        <div className="p-4 relative text-gray-100">
                             {children}
                             <button
-                                onClick={() => setIsOpen(false)}
-                                className="absolute top-4 right-4 p-2 bg-gray-300 rounded-full"
+                                onClick={handleCloseClick}
+                                className="hidden absolute -top-10 right-0 w-[35px] h-[35px] items-center justify-center text-gray-50 bg-opacity-25 text-[12px] bg-gray-900 rounded-full"
                                 aria-label="Close modal"
                             >
-                                x
+                               <i className="fi fi-rr-x"></i>
                             </button>
                         </div>
                     </div>

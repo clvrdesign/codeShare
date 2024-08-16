@@ -5,8 +5,10 @@ import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Posts from "../components/Posts";
+import Modal from "../components/Modal";
 
 const AllPosts = () => {
+    const [modalOpen, setModalOpen] = useState(false);
     const [postsData, setPostsData] = useState([]);
     const [selectedPost, setSelectedPost] = useState(null);
     const [searchQuery, setSearchQuery] = useState("");
@@ -14,17 +16,15 @@ const AllPosts = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
-        const fetchPosts = () => {
-            axios
-                .get("http://localhost:4000/posts/")
-                .then((response) => {
-                    setPostsData(response.data);
-                    setLoading(false);
-                })
-                .catch((error) => {
-                    setError(error.message);
-                    setLoading(false);
-                });
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get("http://localhost:4000/posts/");
+                setPostsData(response.data);
+            } catch (error) {
+                setError(error.message);
+            } finally {
+                setLoading(false);
+            }
         };
 
         fetchPosts();
@@ -32,6 +32,12 @@ const AllPosts = () => {
 
     const handlePostClick = (data) => {
         setSelectedPost(data);
+        setModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setModalOpen(false);
+        setSelectedPost(null); // Reset selected post when closing modal
     };
 
     const handleSearchChange = (e) => {
@@ -41,7 +47,9 @@ const AllPosts = () => {
     // Filter posts based on search query
     const filteredPosts = postsData.filter(
         (post) =>
-            post.category.toLowerCase().includes(searchQuery.toLowerCase())
+            post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            post.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
     return (
@@ -81,25 +89,36 @@ const AllPosts = () => {
                 </div>
             </div>
 
-            {selectedPost && (
-                <div className="fixed max-h-screen inset-0 bg-black bg-opacity-50 flex justify-center items-center overflow-auto z-50">
-                    <div className="lg:w-1/3 md:w-1/2 w-full bg-white p-6 rounded-3xl shadow-lg m-4">
-                        <h2 className="text-2xl mb-4">{selectedPost.title}</h2>
-                        <img
-                            className="w-full h-[215px] object-cover rounded-2xl"
-                            src={selectedPost.imageUrl}
-                            alt=""
-                        />
-                        <p className="my-4 text-justify">{selectedPost.content}</p>
-
+            {modalOpen && selectedPost && (
+                <Modal>
+                    <button
+                        onClick={handleCloseModal}
+                        className="bg-[#f8f296] flex items-center text-gray-900 px-4 py-2 mb-5 rounded-lg"
+                    >
+                        <i className="fi fi-rr-angle-small-left translate-y-0.5"></i> Back
+                    </button>
+                    <h2 className="text-2xl mb-4">{selectedPost.title}</h2>
+                    <img
+                        className="w-full h-[215px] object-cover rounded-2xl"
+                        src={selectedPost.imageUrl}
+                        alt={selectedPost.title}
+                    />
+                    <p className="my-4 text-justify">{selectedPost.content}</p>
+                    <div className="flex gap-3">
                         <button
-                            onClick={() => setSelectedPost(null)}
-                            className="bg-blue-500 text-white px-4 py-2 rounded-lg"
+                            onClick={handleCloseModal}
+                            className="bg-red-300 flex gap-2 items-center text-gray-900 px-4 py-2 mb-5 rounded-lg"
                         >
-                            Close
+                            <i className="fi fi-rr-trash translate-y-0.5"></i> Delete
+                        </button>
+                        <button
+                            onClick={handleCloseModal}
+                            className="bg-gray-700 flex gap-2 items-center text-gray-200 px-4 py-2 mb-5 rounded-lg"
+                        >
+                            <i className="fi fi-rr-edit translate-y-0.5"></i> Edit
                         </button>
                     </div>
-                </div>
+                </Modal>
             )}
 
             <Footer />
