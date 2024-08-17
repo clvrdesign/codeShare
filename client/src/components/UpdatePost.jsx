@@ -7,13 +7,12 @@ import PropTypes from 'prop-types';
 const UpdatePost = ({ closeModal }) => {
   const { id } = useParams(); // Used to get the post ID from the route parameters
   console.log(id)
-  const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state for categories and post data
   const [error, setError] = useState(null); // Error state for data fetching
   const [formData, setFormData] = useState({
     title: "",
     imageUrl: "",
-    category: "",
+    tag: "",
     content: "",
   });
   const [submitError, setSubmitError] = useState(null); // Error state for form submission
@@ -23,22 +22,14 @@ const UpdatePost = ({ closeModal }) => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Fetch categories
-    axios.get('http://localhost:4000/categories/')
-      .then((response) => {
-        setCategories(Array.isArray(response.data) ? response.data : []);
-      })
-      .catch((error) => {
-        setError(error);
-      });
-
+   
     // Fetch post data to update
     axios.get(`http://localhost:4000/posts/${id}`)
       .then((response) => {
         setFormData({
           title: response.data.title || "",
           imageUrl: response.data.imageUrl || "",
-          category: response.data.category || "",
+          tag: response.data.tag || "",
           content: response.data.content || "",
         });
       })
@@ -71,8 +62,8 @@ const UpdatePost = ({ closeModal }) => {
       errors.imageUrl = "Image URL must be a valid image URL (jpg, jpeg, png, gif, bmp, webp).";
     }
 
-    if (!formData.category) {
-      errors.category = "Category is required.";
+    if (!formData.tag) {
+      errors.tag = "Tag is required.";
     }
 
     if (!formData.content.trim()) {
@@ -101,7 +92,7 @@ const UpdatePost = ({ closeModal }) => {
         if (closeModal) {
           closeModal(); // Close modal after submission if in a modal
         } else {
-          navigate(`/post/${id}`); // Navigate to the updated post's view page
+          navigate(`/`); // Navigate to the home
         }
       })
       .catch((error) => {
@@ -168,20 +159,18 @@ const UpdatePost = ({ closeModal }) => {
           onChange={handleChange}
         />
 
-        {validationErrors.category && (
-          <small className="text-red-500 text-sm">{validationErrors.category}</small>
+        {validationErrors.tag && (
+          <small className="text-red-500 text-sm">{validationErrors.tag}</small>
         )}
-        <select
+        <input
           className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
-          name="category"
-          value={formData.category}
+          placeholder="Tags"
+          type="text"
+          name="tag"
+          value={formData.tag}
           onChange={handleChange}
-        >
-          <option value="" disabled>Select category</option>
-          {Array.isArray(categories) && categories.map(category => (
-            <option key={category.id} value={category.id}>{category.name}</option>
-          ))}
-        </select>
+        />
+        
 
         {validationErrors.content && (
           <small className="text-red-500 text-sm">{validationErrors.content}</small>

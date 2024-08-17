@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import Categories from "../components/Categories";
 import UpdatePost from "../components/UpdatePost"
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -69,7 +68,7 @@ const SinglePost = () => {
                     </div>
 
                     <div className="max-w-[1200px] m-auto gap-10 flex flex-col md:flex-row mt-14 px-3">
-                        <div className="flex-[6]">
+                        <div className="">
                             <h1 className="text-3xl font-bold text-gray-100 mb-6">
                                 {post.title}
                             </h1>
@@ -90,10 +89,6 @@ const SinglePost = () => {
                                     <i className="fi fi-rr-edit translate-y-0.5"></i> Edit
                                 </button>
                             </div>
-                        </div>
-                        <div className="flex-[3] flex-wrap mb-10">
-                            <h2 className="text-gray-100 text-2xl font-medium mb-6">Popular categories</h2>
-                            <Categories />
                         </div>
                     </div>
 

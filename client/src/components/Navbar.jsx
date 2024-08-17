@@ -11,9 +11,6 @@ const Navbar = ({createPost}) => {
                 <img className="h-full cursor-pointer md:hidden block" src={assets.logo_small} alt="" />
             </Link>
             <ul className="flex items-center justify-between text-gray-900 lg:gap-10 gap-4 text-lg font-medium">
-                <Link to='/' className="w-fit cursor-pointer text-gray-500">
-                    Home
-                </Link>
                 <Link to='/posts' className="w-fit cursor-pointer">
                     Posts
                 </Link>

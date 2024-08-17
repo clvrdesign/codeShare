@@ -1,15 +1,12 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
-  const [categories, setCategories] = useState([]);
-  const [loading, setLoading] = useState(true); // Loading state
-  const [error, setError] = useState(null); // Error state
   const [formData, setFormData] = useState({
     title: "",
     imageUrl: "",
-    category: "",
+    tag: "",
     content: "",
   });
   const [submitError, setSubmitError] = useState(null); // Error state for form submission
@@ -17,18 +14,6 @@ const CreatePage = () => {
   const [validationErrors, setValidationErrors] = useState({}); // Validation errors
 
   const navigate = useNavigate();
-
-  useEffect(() => {
-    axios.get('http://localhost:4000/categories/')
-      .then((response) => {
-        setCategories(Array.isArray(response.data) ? response.data : []);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -51,8 +36,8 @@ const CreatePage = () => {
       errors.imageUrl = "Image URL must be a valid image URL (jpg, jpeg, png, gif, bmp, webp).";
     }
 
-    if (!formData.category) {
-      errors.category = "Category is required.";
+    if (!formData.tag) {
+      errors.tag = "Tag is required.";
     }
 
     if (!formData.content.trim()) {
@@ -79,7 +64,7 @@ const CreatePage = () => {
         setFormData({
           title: "",
           imageUrl: "",
-          category: "",
+          tag: "",
           content: "",
         });
         setValidationErrors({});
@@ -93,21 +78,7 @@ const CreatePage = () => {
       });
   };
 
-  if (loading) {
-    return (
-      <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
-        Loading categories ...
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
-        {error.message}
-      </div>
-    );
-  }
+ 
 
   return (
     <>
@@ -154,20 +125,18 @@ const CreatePage = () => {
             onChange={handleChange}
           />
 
-          {validationErrors.category && (
-            <small className="text-red-500 text-sm">{validationErrors.category}</small>
+          {validationErrors.tag && (
+            <small className="text-red-500 text-sm">{validationErrors.tag}</small>
           )}
-          <select
-            className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
-            name="category"
-            value={formData.category || ""}
-            onChange={handleChange}
-          >
-            <option value="" disabled>Select category</option>
-            {Array.isArray(categories) && categories.map(category => (
-              <option key={category.id} value={category.id}>{category.name}</option>
-            ))}
-          </select>
+          <input
+          className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
+          placeholder="Tags"
+          type="text"
+          name="tag"
+          value={formData.tag}
+          onChange={handleChange}
+        />
+        
 
           {validationErrors.content && (
             <small className="text-red-500 text-sm">{validationErrors.content}</small>

@@ -14,7 +14,7 @@ const postSchema = new mongoose.Schema({
         required: true,
     },
 
-    category:{
+    tag:{
         type: String,
         required: true
     },

@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
 import axios from "axios";
-import Categories from "../components/Categories";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
@@ -58,7 +57,7 @@ const AllPosts = () => {
 
     const filteredPosts = postsData.filter(
         (post) =>
-            post.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
+            post.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
             post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
             post.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
@@ -84,12 +83,6 @@ const AllPosts = () => {
                     Stay up-to-date with the latest developments in the world of technology and software development.
                 </p>
             </Header>
-
-            <div className="w-full pt-10">
-                <div className="max-w-[1200px] m-auto flex flex-wrap px-3">
-                    <Categories />
-                </div>
-            </div>
 
             <div className="w-full py-10">
                 <div className="max-w-[1200px] m-auto flex flex-col items-center px-3">

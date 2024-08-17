@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 
-const Post = ({ title, thumbnail, content, category, date, onClick }) => {
+const Post = ({ title, thumbnail, content, tag, date, onClick }) => {
 
   function timeAgo(dateString) {
     const now = new Date();
@@ -35,7 +35,7 @@ const Post = ({ title, thumbnail, content, category, date, onClick }) => {
         </small>
         <img className='w-full h-full object-cover' src={thumbnail} alt={title.slice(0, 10)} />
       </div>
-      <small className='block mb-2 text-[#f8f296]'>#{category}</small>
+      <small className='block mb-2 text-[#f8f296]'>{tag}</small>
       <p className='text-gray-400'>{content.slice(0, 120)}... <b>(read more)</b></p>
     </div>
   )
@@ -46,7 +46,7 @@ Post.propTypes = {
   title: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   thumbnail: PropTypes.string.isRequired,
-  category: PropTypes.string.isRequired,
+  tag: PropTypes.string.isRequired,
   date: PropTypes.string.isRequired,
   onClick: PropTypes.func
 }

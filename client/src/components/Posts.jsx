@@ -1,64 +1,66 @@
 import { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import axios from 'axios'
+import axios from 'axios';
 import Post from './Post';
 
-const Posts = ({onPostClick}) => {
-    const [posts, setPosts] = useState([]);
-    const [loading, setLoading] = useState(true); // Loading state
-    const [error, setError] = useState(null); // Error state
+const Posts = ({ onPostClick, limit }) => {
+  const [posts, setPosts] = useState([]);
+  const [loading, setLoading] = useState(true); // Loading state
+  const [error, setError] = useState(null); // Error state
 
-    useEffect(() => {
-        axios.get('http://localhost:4000/posts/')
-          .then((response) => {
-            setPosts(response.data);
-            setLoading(false);
-            
-          })
-          .then(()=>{
-            if (posts.length < 0){
-                setError('No posts found');
-            }
-          })
-          .catch((error) => {
-            setError(error);
-            setLoading(false);
-          });
-      }, [posts.length]);
+  useEffect(() => {
+    axios.get(`http://localhost:4000/posts?limit=${limit}`)
+      .then((response) => {
+        if (response.data.length === 0) {
+          setError(new Error('No posts found'));
+        } else {
+          setPosts(response.data);
+        }
+        setLoading(false);
+      })
+      .catch((error) => {
+        setError(error);
+        setLoading(false);
+      });
+  }, [limit]);
 
-    if (loading) {
-        return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
-            Loading posts ...
-        </div>;
-    }
-
-    if (error) {
-        return <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
-            {error.message}
-        </div>;
-    }
-
+  if (loading) {
     return (
-        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-            {posts.map((data) => (
-                <Post
-                key={data._id}
-                title={data.title}
-                thumbnail={data.imageUrl}
-                content={data.content}
-                category={data.category}
-                date={data.dateCreated}
-                onClick={() => onPostClick(data)}
-                />
-            ))}
-        </div>
+      <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
+        Loading posts...
+      </div>
     );
+  }
+
+  if (error) {
+    return (
+      <div className='flex items-center justify-center text-center text-[15px] rounded-xl text-gray-400 bg-gray-900 p-4'>
+        {error.message || 'An error occurred while fetching posts.'}
+      </div>
+    );
+  }
+
+  return (
+    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+      {posts.map((data) => (
+        <Post
+          key={data._id}
+          title={data.title}
+          thumbnail={data.imageUrl}
+          content={data.content}
+          tag={data.tag}
+          date={data.dateCreated}
+          onClick={() => onPostClick(data)}
+        />
+      ))}
+    </div>
+  );
 }
 
 // Define prop types for the Post component
 Posts.propTypes = {
-    onPostClick: PropTypes.func
-  }
-  
+  onPostClick: PropTypes.func,
+  limit: PropTypes.number
+}
 
 export default Posts;

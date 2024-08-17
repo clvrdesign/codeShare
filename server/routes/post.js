@@ -42,7 +42,7 @@ route.post("/", async (req, res) => {
     const post = {
         title: req.body.title,
         content: req.body.content,
-        category: req.body.category,
+        tag: req.body.tag,
         imageUrl: req.body.imageUrl
     }
     const newPost = new Post(post);
@@ -66,7 +66,8 @@ route.patch('/:id', async (req, res) => {
         const updatedData = {
             title: req.body.title,
             imageUrl: req.body.imageUrl,
-            content: req.body.content
+            content: req.body.content,
+            tag: req.body.tag
         };
         
         // Find the post by ID and update it with the new data
