@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import axios from 'axios';
 import Post from './Post';
 
-const Posts = ({ onPostClick, limit }) => {
+const Posts = ({ onPostClick }) => {
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
@@ -56,7 +56,6 @@ const Posts = ({ onPostClick, limit }) => {
 // Define prop types for the Post component
 Posts.propTypes = {
   onPostClick: PropTypes.func,
-  limit: PropTypes.number
 }
 
 export default Posts;
