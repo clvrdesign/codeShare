@@ -68,7 +68,7 @@ const CreatePage = () => {
           content: "",
         });
         setValidationErrors({});
-        navigate('/posts')
+        navigate('/')
       })
       .catch((error) => {
         setSubmitError(error.message);

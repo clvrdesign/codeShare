@@ -44,7 +44,7 @@ const Posts = ({ onPostClick }) => {
                 title={data.title}
                 thumbnail={data.imageUrl}
                 content={data.content}
-                category={data.category}
+                tag={data.tag}
                 date={data.dateCreated}
                 onClick={() => onPostClick(data)}
                 />

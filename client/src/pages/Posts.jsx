@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom"; // Use useNavigate instead of useHistory
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Navbar from "../components/Navbar";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import Posts from "../components/Posts";
+import CreatePost from "../components/CreatePost"
 import Modal from "../components/Modal";
 
 const AllPosts = () => {
@@ -15,12 +16,13 @@ const AllPosts = () => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const navigate = useNavigate(); // Initialize useNavigate for navigation
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchPosts = async () => {
+            setLoading(true);
             try {
-                const response = await axios.get("http://localhost:4000/posts/");
+                const response = await axios.get(`http://localhost:4000/posts?search=${searchQuery}`);
                 setPostsData(response.data);
             } catch (error) {
                 setError(error.message);
@@ -30,7 +32,7 @@ const AllPosts = () => {
         };
 
         fetchPosts();
-    }, []);
+    }, [searchQuery]); // Fetch posts when searchQuery changes
 
     const deletePost = async () => {
         try {
@@ -43,29 +45,30 @@ const AllPosts = () => {
     };
 
     const handlePostClick = (post) => {
-        navigate(`/post/${post._id}`); // Navigate to SinglePost with post ID
+        navigate(`/post/${post._id}`);
     };
 
     const handleCloseModal = () => {
         setModalOpen(false);
-        setSelectedPost(null); // Reset selected post when closing modal
+        setSelectedPost(null);
+    };
+
+    const toggleModal = () => {
+        setModalOpen(!modalOpen);
     };
 
     const handleSearchChange = (e) => {
         setSearchQuery(e.target.value);
     };
 
-    const filteredPosts = postsData.filter(
-        (post) =>
-            post.tag.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            post.content.toLowerCase().includes(searchQuery.toLowerCase())
-    );
-
     return (
         <div className="bg-gray-950">
-            
-            <Navbar />
+            {modalOpen && (
+                <Modal>
+                    <CreatePost />
+                </Modal>
+            )}
+            <Navbar createPost={toggleModal} />
 
             <Header>
                 <form action="" className="relative lg:w-[550px] w-[310px] mb-7">
@@ -91,7 +94,7 @@ const AllPosts = () => {
                     ) : error ? (
                         <p className="text-red-500">Error: {error}</p>
                     ) : (
-                        <Posts onPostClick={handlePostClick} posts={filteredPosts} />
+                        <Posts onPostClick={handlePostClick} posts={postsData} />
                     )}
                 </div>
             </div>

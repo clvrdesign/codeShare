@@ -4,8 +4,14 @@ const Post = require('../models/post')
 
 // Return all posts
 route.get('/', async (req, res) => {
+    const search = req.query.search || '';
     try {
-        const posts = await Post.find(); // Fetch all posts from the database
+        const posts = await Post.find({
+            $or: [
+                { title: { $regex: search, $options: 'i' } },
+                { tag: { $regex: search, $options: 'i' } }
+            ]
+        }); // Fetch all posts from the database
         if (posts.length==0){
             return res.status(404).json({message: "no post found"})
             
@@ -16,6 +22,7 @@ route.get('/', async (req, res) => {
         res.status(500).json({ message: 'Error fetching posts', details: error.message }); // Return a 500 status with error details
     }
 });
+
 
 
 // Return a single post by ID
