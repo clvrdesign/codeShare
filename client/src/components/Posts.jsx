@@ -8,21 +8,17 @@ const Posts = ({ onPostClick, limit }) => {
   const [loading, setLoading] = useState(true); // Loading state
   const [error, setError] = useState(null); // Error state
 
-  useEffect(() => {
-    axios.get(`http://localhost:4000/posts?limit=${limit}`)
-      .then((response) => {
-        if (response.data.length === 0) {
-          setError(new Error('No posts found'));
-        } else {
-          setPosts(response.data);
-        }
-        setLoading(false);
-      })
-      .catch((error) => {
-        setError(error);
-        setLoading(false);
-      });
-  }, [limit]);
+    useEffect(() => {
+        axios.get('http://localhost:4000/posts/')
+          .then((response) => {
+            setPosts(response.data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            setError(error);
+            setLoading(false);
+          });
+      }, []);
 
   if (loading) {
     return (
@@ -40,21 +36,21 @@ const Posts = ({ onPostClick, limit }) => {
     );
   }
 
-  return (
-    <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
-      {posts.map((data) => (
-        <Post
-          key={data._id}
-          title={data.title}
-          thumbnail={data.imageUrl}
-          content={data.content}
-          tag={data.tag}
-          date={data.dateCreated}
-          onClick={() => onPostClick(data)}
-        />
-      ))}
-    </div>
-  );
+    return (
+        <div className="grid lg:grid-cols-3 md:grid-cols-2 grid-cols-1 gap-4">
+            {posts.map((data) => (
+                <Post
+                key={data.id}
+                title={data.title}
+                thumbnail={data.imageUrl}
+                content={data.content}
+                category={data.category}
+                date={data.dateCreated}
+                onClick={() => onPostClick(data)}
+                />
+            ))}
+        </div>
+    );
 }
 
 // Define prop types for the Post component
