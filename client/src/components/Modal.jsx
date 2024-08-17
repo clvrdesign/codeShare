@@ -37,14 +37,14 @@ const Modal = ({ children, onClose }) => {
             aria-modal="true"
             role="dialog"
         >
-            <div className="max-w-[550px] m-auto h-[350px] bg-gray-950 rounded-2xl relative">
+            <div className="bg-gray-950 rounded-2xl relative">
                 <button
                     onClick={handleCloseClick}
                     className="absolute top-3 right-3 text-gray-400 hover:text-gray-100"
                 >
-                    &times; {/* Close button */}
+                   <i className="fi fi-rr-x absolute -top-10 w-8 h-8 text-sm flex items-center justify-center text-gray-50 bg-black bg-opacity-40 rounded-full"></i>
                 </button>
-                <div className="p-4 text-gray-100">
+                <div className="max-w-[750px] m-auto  p-4 text-gray-100">
                     {children}
                 </div>
             </div>

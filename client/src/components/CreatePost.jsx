@@ -1,5 +1,6 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const CreatePage = () => {
   const [categories, setCategories] = useState([]);
@@ -14,6 +15,8 @@ const CreatePage = () => {
   const [submitError, setSubmitError] = useState(null); // Error state for form submission
   const [isSubmitting, setIsSubmitting] = useState(false); // Submitting state
   const [validationErrors, setValidationErrors] = useState({}); // Validation errors
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios.get('http://localhost:4000/categories/')
@@ -44,8 +47,8 @@ const CreatePage = () => {
 
     if (!formData.imageUrl.trim()) {
       errors.imageUrl = "Image URL is required.";
-    } else if (!/^https?:\/\/.+\.(jpg|jpeg|png|gif|bmp|webp)$/i.test(formData.imageUrl)) {
-      errors.imageUrl = "Image URL must be a valid image URL (jpg, jpeg, png, gif, bmp).";
+    } else if (!/^https?:\/\/.+\.(jpg|jpeg|png|gif|bmp|webp|)$/i.test(formData.imageUrl)) {
+      errors.imageUrl = "Image URL must be a valid image URL (jpg, jpeg, png, gif, bmp, webp).";
     }
 
     if (!formData.category) {
@@ -80,6 +83,7 @@ const CreatePage = () => {
           content: "",
         });
         setValidationErrors({});
+        navigate('/posts')
       })
       .catch((error) => {
         setSubmitError(error.message);
@@ -109,75 +113,84 @@ const CreatePage = () => {
     <>
 
 
-        <div className="w-1/4">
-          <h1 className="text-3xl text-center text-gray-300 font-bold mt-10">Add post</h1>
-          <form 
-            className="flex flex-col items-center justify-center gap-2 my-10" 
-            method="post" 
-            onSubmit={handleSubmit}
+      <div className="w-full">
+        <h1 className="text-3xl text-center text-gray-300 font-bold mt-10">Add post</h1>
+        <form
+          className="flex flex-col justify-center gap-2 my-10"
+          method="post"
+          onSubmit={handleSubmit}
+        >
+          {submitError && (
+
+            <div className="bg-red-950 text-red-100 p-2 border border-red-700">
+              <small>
+                {submitError}
+              </small>
+            </div>
+
+          )}
+
+          {validationErrors.title && (
+            <small className="text-red-500 text-sm">{validationErrors.title}</small>
+          )}
+          <input
+            className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
+            placeholder="Title"
+            type="text"
+            name="title"
+            value={formData.title || ""}
+            onChange={handleChange}
+          />
+
+          {validationErrors.imageUrl && (
+            <small className="text-red-500 text-sm">{validationErrors.imageUrl}</small>
+          )}
+          <input
+            className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
+            placeholder="Image url"
+            type="text"
+            name="imageUrl"
+            value={formData.imageUrl || ""}
+            onChange={handleChange}
+          />
+
+          {validationErrors.category && (
+            <small className="text-red-500 text-sm">{validationErrors.category}</small>
+          )}
+          <select
+            className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
+            name="category"
+            value={formData.category || ""}
+            onChange={handleChange}
           >
-            <input 
-              className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900" 
-              placeholder="Title" 
-              type="text" 
-              name="title"
-              value={formData.title || ""}
-              onChange={handleChange}
-            />
-            {validationErrors.title && (
-              <div className="text-red-500 text-sm">{validationErrors.title}</div>
-            )}
-            
-            <input 
-              className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900" 
-              placeholder="Image url" 
-              type="text" 
-              name="imageUrl"
-              value={formData.imageUrl || ""}
-              onChange={handleChange}
-            />
-            {validationErrors.imageUrl && (
-              <div className="text-red-500 text-sm">{validationErrors.imageUrl}</div>
-            )}
-            
-            <select 
-              className="w-full h-10 px-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900" 
-              name="category" 
-              value={formData.category || ""}
-              onChange={handleChange}
-            >
-              <option value="" disabled>Select category</option>
-              {Array.isArray(categories) && categories.map(category => (
-                <option key={category.id} value={category.id}>{category.name}</option>
-              ))}
-            </select>
-            {validationErrors.category && (
-              <div className="text-red-500 text-sm">{validationErrors.category}</div>
-            )}
-            
-            <textarea
-              name="content"
-              value={formData.content || ""}
-              onChange={handleChange}
-              placeholder="Content"
-              className="w-full min-h-[150px] p-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
-            ></textarea>
-            {validationErrors.content && (
-              <div className="text-red-500 text-sm">{validationErrors.content}</div>
-            )}
-            
-            {submitError && (
-              <div className='text-red-500'>{submitError}</div>
-            )}
-            <button 
-              type="submit" 
-              className="w-full h-10 px-2 outline-none rounded-md font-semibold bg-[#f8f296]"
-              disabled={isSubmitting}
-            >
-              {isSubmitting ? 'Submitting...' : 'Add post'}
-            </button>
-          </form>
-        </div>
+            <option value="" disabled>Select category</option>
+            {Array.isArray(categories) && categories.map(category => (
+              <option key={category.id} value={category.id}>{category.name}</option>
+            ))}
+          </select>
+
+          {validationErrors.content && (
+            <small className="text-red-500 text-sm">{validationErrors.content}</small>
+          )}
+          <textarea
+            name="content"
+            value={formData.content || ""}
+            onChange={handleChange}
+            placeholder="Content"
+            className="w-full min-h-[150px] p-2 outline-none rounded-md text-gray-400 placeholder:text-gray-700 bg-gray-900"
+          ></textarea>
+
+
+
+          <button
+            type="submit"
+            className="w-full h-10 px-2 outline-none rounded-md font-semibold text-gray-900 bg-[#f8f296]"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Submitting...' : 'Add post'}
+          </button>
+        </form>
+      </div>
 
 
     </>

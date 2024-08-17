@@ -11,7 +11,7 @@ const ErrorPage = () => {
           Error 404
         </h1>
         <p className='max-w-[650px] text-center lg:text-lg text-[15px] text-gray-50 px-3'>
-          The page seems to be missing or permenently removed form our servers...
+          The page seems to be missing or permanently removed form our servers...
         </p>
         </div>
         

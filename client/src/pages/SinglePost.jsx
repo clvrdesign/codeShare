@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Categories from "../components/Categories";
-import CreatePost from "../components/CreatePost"
+import UpdatePost from "../components/UpdatePost"
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import Modal from "../components/Modal";
@@ -31,7 +31,7 @@ const SinglePost = () => {
         };
 
         fetchPost();
-    }, [id]); // Re-fetch if the id changes
+    }, [id, navigate]); // Re-fetch if the id changes
 
     const deletePost = async () => {
         try {
@@ -100,7 +100,7 @@ const SinglePost = () => {
                     {
                         isOpenModal &&
                         <Modal>
-                            <CreatePost/>
+                            <UpdatePost/>
                         </Modal>
                     }
 

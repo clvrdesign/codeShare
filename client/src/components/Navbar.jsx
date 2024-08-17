@@ -17,9 +17,6 @@ const Navbar = ({createPost}) => {
                 <Link to='/posts' className="w-fit cursor-pointer">
                     Posts
                 </Link>
-                <Link to='/category' className="w-fit cursor-pointer">
-                    Categories
-                </Link>
                 <li onClick={createPost} className="w-fit cursor-pointer flex items-center">
                     Create
                 </li>

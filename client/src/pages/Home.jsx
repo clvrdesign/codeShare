@@ -44,7 +44,7 @@ const Home = () => {
             Latest posts
           </h1>
           <Posts onPostClick={handlePostClick}/>
-          <Link to='/trends' className="flex justify-center items-center text-center h-10 w-fit px-10 bg-[#f8f296] text-gray-800 my-10 rounded-full">
+          <Link to='/posts' className="flex justify-center items-center text-center h-10 w-fit px-10 bg-[#f8f296] text-gray-800 my-10 rounded-full">
             View all posts
           </Link>
         </div>
